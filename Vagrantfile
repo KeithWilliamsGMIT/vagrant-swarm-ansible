@@ -2,8 +2,8 @@ BOX_IMAGE = "bento/ubuntu-18.04"
 SWARM_MANAGER_COUNT = 1
 SWARM_WORKER_COUNT = 1
 NODE_COUNT = SWARM_MANAGER_COUNT + SWARM_WORKER_COUNT
-TLD = test
-DOMAIN_NAME = app.#{TLD}
+TLD = "test"
+DOMAIN_NAME = "app.#{TLD}"
 
 Vagrant.configure("2") do |config|
   # Create VMs in a loop
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "provision.yml"
       ansible.groups = {
         "docker_swarm_manager" => ["node[1:#{SWARM_MANAGER_COUNT}]"],
-        "docker_swarm_worker" => ["node[#{SWARM_MANAGER_COUNT}:#{NODE_COUNT}]"]
+        "docker_swarm_worker" => ["node[#{SWARM_MANAGER_COUNT}:#{NODE_COUNT}]"],
         "vagrant" => ["node[1:#{NODE_COUNT}]"]
       }
     end
