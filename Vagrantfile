@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
       node.vm.network :private_network, ip: "192.168.2.#{i + 1}"
 
       if i == 1
-        node.dns.tld = #{TLD}
+        node.dns.tld = "#{TLD}"
         node.dns.patterns = [/^(\w+\.)#{DOMAIN_NAME}$/, /^#{DOMAIN_NAME}$/]
       end
 
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "provision.yml"
       ansible.groups = {
         "docker_swarm_manager" => ["node[1:#{SWARM_MANAGER_COUNT}]"],
-        "docker_swarm_worker" => ["node[#{SWARM_MANAGER_COUNT}:#{NODE_COUNT}]"],
+        "docker_swarm_worker" => ["node[#{SWARM_MANAGER_COUNT + 1}:#{NODE_COUNT}]"],
         "vagrant" => ["node[1:#{NODE_COUNT}]"]
       }
     end
