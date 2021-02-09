@@ -26,13 +26,13 @@ node2 ansible_host=127.0.0.1 ansible_port=2203 ansible_user='vagrant' ansible_ss
 node[1:1]
 
 [docker_swarm_worker]
-node[1:2]
+node[2:2]
 
 [vagrant]
 node[1:2]
 ```
 
-There is a manager and worker group which will define the role of the nodes in the Swarm. Note that all hosts are also apart of a group called `vagrant`. This allows you to define group variables when running Ansible against the Vagrant cluster.
+There is a manager and worker group which will define the role of the nodes in the Swarm. You can define how many managers and workers you want to create. Note that all hosts are also apart of a group called `vagrant`. This allows you to define group variables when running Ansible against the Vagrant cluster.
 
 To customise the virtual machines you can create a `Customfile`. This file will be ignored by Git. For example, to increase the memory to 4GB you can create a `Customfile` with the below content and then reload the virtual machines using `vagrant reload`.
 
