@@ -2,8 +2,6 @@ BOX_IMAGE = "bento/ubuntu-18.04"
 SWARM_MANAGER_COUNT = 1
 SWARM_WORKER_COUNT = 1
 NODE_COUNT = SWARM_MANAGER_COUNT + SWARM_WORKER_COUNT
-TLD = "test"
-DOMAIN_NAME = "app.#{TLD}"
 
 Vagrant.configure("2") do |config|
   # Create VMs in a loop
@@ -15,11 +13,7 @@ Vagrant.configure("2") do |config|
       # as it is often  used by the router and can cause issues
       # with the network.
       node.vm.network :private_network, ip: "192.168.2.#{i + 1}"
-
-      if i == 1
-        node.dns.tld = "#{TLD}"
-        node.dns.patterns = [/^(\w+\.)#{DOMAIN_NAME}$/, /^#{DOMAIN_NAME}$/]
-      end
+      node.vm.network :public_network, ip: "192.168.1.#{i + 149}", bridge: "wlo1"
 
       disk_name = "./disks/disk#{i}.vdi"
 
@@ -33,6 +27,10 @@ Vagrant.configure("2") do |config|
         vb.customize ['storageattach', :id,  '--storagectl', 'SATA Controller', '--port', i, '--device', 0, '--type', 'hdd', '--medium', disk_name]
       end
     end
+
+    # Enable X11 forwarding for debugging purposes
+    config.ssh.forward_agent = true
+    config.ssh.forward_x11 = true
 
     # Provision all VMs with Anisble playbook and generate inventory file
     config.vm.provision 'ansible' do |ansible|
