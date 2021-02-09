@@ -2,6 +2,8 @@
 
 This repository shows how to setup a cluster of virtual machines using Vagrant. These virtual machines will be configured to work with Docker Swarm and Ansible by assigning each node to either a manager or worker group. The aim is to create a multi-node Swarm locally to simulate a cloud environment.
 
+**Check out [digitalocean-swarm-terraform](https://github.com/KeithWilliamsGMIT/digitalocean-swarm-terraform) on how to create a similar cluster on DigitalOcean using Terraform.**
+
 ## Getting Started
 
 The first step to getting started is to clone the repository:
@@ -16,7 +18,7 @@ Next we can use Vagrant to create two Ubuntu 18.04 virtual machines with the nam
 vagrant up
 ```
 
-This may take some time when first running it as the Vagrant box will need to be downloaded but subsequent runs should be quicker. These virtual machines are provisioned using Ansible to update `pip` which may also take some time. Vagrant will generate an Ansible inventory file which saves us from manually writing one ourselves. We define which hosts are apart of which group in the `Vagrantfile`. The inventory file will look similar to the following for two nodes:
+This may take some time when first running it as the Ubuntu 18.04 image will need to be downloaded but subsequent runs should be quicker. These virtual machines are provisioned using Ansible to update `pip` which may also take some time. Vagrant will generate an Ansible inventory file which saves us from manually writing one ourselves. We define which hosts are apart of which group in the `Vagrantfile`. The inventory file will look similar to the following for two nodes:
 
 ```
 node1 ansible_host=127.0.0.1 ansible_port=2222 ansible_user='vagrant' ansible_ssh_private_key_file='/home/ubuntu/repos/vagrant-swarm-ansible/.vagrant/machines/node1/virtualbox/private_key'
